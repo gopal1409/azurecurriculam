@@ -1,0 +1,51 @@
+It is an set of cmdlets for manging azure resources directly from PowerShell command line. Azure Powershell is designed to make it easy to learn and get started with automation in azure..  
+ 
+To check your powershell version run the command 
+$PSVersionTable.PSVersion 
+ 
+If you want to work with azure you need to minimum have powershell version 5.1 installed in your local system.  
+ 
+In azure if you want to create a virtual machine with powershell or gui interface first thing you need to create an Resource Group 
+ 
+Once you create a resource group using powershell  
+ 
+Before you create a virtual machine you must create a credential object container password for the administrator of the WIndowVM 
+ 
+It will allow you to create and user name and password give you prompt for the same 
+ 
+How to create a virtual machine in azure 
+ 
+PS C:\Users\Gopal> history                                                                                                                                             
+  Id CommandLine 
+  -- ----------- 
+   1 PSVersionTable.PSVersion 
+   2 $PSVersionTable.PSVersion 
+   3 Install-Module --Name AZ -AllowClobber -Scope AllUsers 
+   4 Connect-AzAccount 
+   5 Get-Command -Verb Get -Noun AzVM* -Module Az.Compute 
+   6 New-AzResourceGroup -Name aztutorial --Location eastus 
+   7 New-AzResourceGroup -Name aztutorial -Location eastus 
+   8 cls 
+   9 $cred=Get-Credential -Message "Enter a username and passowrd for your virtual machine" 
+  10 $vmParams = @ {... 
+  11 $vmParams = @{... 
+  12 $newVM1 = New-AzVM @vmParams 
+  13 $newVM1 
+  14 clear 
+  15 $newVM1.OSprofile | Select-Object ComputerName,AdminUserName 
+  16 $job = Remove-AzResourceGroup -Name aztutorial -Force -AsJob 
+  17 $job 
+  18 Wait-Job -Id $job.id 
+ 
+Paramter Pass to create the virtual machine 
+ 
+ 
+PS C:\Users\Gopal> $vmParams = @{ 
+>> ResourceGroupName = 'aztutorial' 
+>> Name= 'TutorialVm1' 
+>> Location = 'eastus' 
+>> ImageName = 'Win2016Datacenter' 
+>> PublicIPAddressName = 'tutorialPublicIp' 
+>> Credential = $cred 
+>> OpenPorts = 3389 
+>> } 
